@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "fullparty": {
+      "type": "http",
+      "url": "https://fullparty.dev/mcp",
+      "headers": {
+        "Authorization": "Bearer ${FULLPARTY_API_KEY}"
+      }
+    }
+  }
+}
