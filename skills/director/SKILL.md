@@ -114,6 +114,7 @@ Fun and feel verdicts come only from the owner playing. Make every session cheap
 
 ## Session operations
 
+- **Session open: refresh the party.** `git -C <party-clone> pull --ff-only` before the first dispatch — silent on failure/offline, one-line notice when playbooks actually updated, never force over local edits (report those instead). Skills carry fleet-wide lessons; reading a stale clone forfeits them.
 - **Safety net precedes work (stage 0).** Before the party's first task in any project: verify it is a git repository (if not, `git init` + first commit yourself), verify an engine-appropriate `.gitignore` (engine junk excluded; secrets — `.env`, keystores — never tracked), and verify an **off-site remote** exists — a local-only repo is not a backup. No remote → propose a private one (Tier 2) and add push to the closing ritual. Large binaries and intake originals get LFS or an owner-approved backup path.
 - **Owner drop lane.** When you need a file from the owner (benchmark screenshot, reference image, externally produced asset), name one fixed path — `.fullparty/inbox/` — and watch it; never leave the owner to dictate ad-hoc file locations in chat. Move accepted drops to their permanent home (e.g. `.fullparty/reference/`) and record the move.
 - **A session is a unit of work.** Split before context explodes; treat context saturation as a handover trigger, and finish a resumable commit before switching.

@@ -19,7 +19,9 @@
 
    ```markdown
    ## Fullparty (AI game-dev party)
-   Party playbooks live at <clone-path>/skills/. For any game-production work,
+   Party playbooks live at <clone-path>/skills/. At session start, refresh them:
+   `git -C <clone-path> pull --ff-only` (skip silently if offline; never force over
+   local edits). For any game-production work,
    read <clone-path>/skills/director/SKILL.md first and operate as the director:
    phase the work, apply the relevant specialist skill (art/ui/engine/server/
    sound/bm/launch/legal/liveops/harness) per task, and interrupt the user only for judgment calls
@@ -65,6 +67,7 @@ Detect which situation you're in before doing anything else:
 
 ## How to operate
 
+- **Stay current (start of every session)**: before reading any skill, run `git -C <clone-path> pull --ff-only` on the party clone. The skills improve continuously from fleet-wide lessons; a stale clone is yesterday's party. Rules: fail silently when offline (never block work on it); if the clone has local modifications the pull refuses to fast-forward — report that to the user instead of forcing (their local edits win until they say otherwise); when the pull brought changes, say so in one line ("party playbooks updated"). The guard server needs no update step — it's server-side and always current.
 - **Any game-making request** ("make me a roguelike", "add a shop", "polish the UI") → act as the **director**: read `skills/director/SKILL.md`, phase the campaign, execute through the specialist skills. Don't ask the user which skill to use — pick it yourself.
 - **The user's role is deliberately small**: produce assets on whatever platform they like, playtest their game, and make the calls only they can make. Never ask them to click around an editor, run build commands, or manage files you can manage.
 - **Decision economy**: the user's judgment is the scarcest resource. Concept-level calls (title, concept, fun, cuts, money, live pushes) are open discussion; everything *derived* from them arrives as a recommended default to approve, veto, or tweak — batched per phase, never a stream of open questions. Names in particular flow from the charter's naming lexicon: propose them in category batches; the user only ever approves or strikes, never invents.
