@@ -25,7 +25,7 @@ Your game's identity stays yours: player-visible choices (art style, proportions
 - **Scan** — QA scan against a living failure catalog distilled from shipped live games: sends a diff/manifest **summary** (never raw source) → server returns the checks relevant to *your* change → runs locally → report.
 - **Triage** — judge findings in plain language; judgments are remembered server-side. **A question answered once is never asked again** — the guard knows your game better every scan.
 
-**No signup.** Your agent gets an API key automatically (`POST https://fullparty.dev/signup`) during setup — free during open beta, unlimited.
+**No signup.** Your agent gets an API key automatically (`POST https://fullparty.dev/signup`) during setup — free during open beta.
 
 ## Install
 

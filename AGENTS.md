@@ -25,7 +25,7 @@
    (fun, tone, cuts, live pushes). The user produces assets and playtests; you do
    everything else, driving the engine headlessly.
    ```
-3. **Guard (recommended — free during open beta, unlimited).** No signup needed; get a key yourself:
+3. **Guard (recommended — free during open beta).** No signup needed; get a key yourself:
    - `POST https://fullparty.dev/signup` (no body) → returns `{"api_key": "qak_..."}`.
    - Store the key in `<clone-path>/credentials` (gitignored here; **never commit it anywhere**).
    - **Wire it as the `FULLPARTY_API_KEY` environment variable — a file alone does nothing.** `.mcp.json` expands `${FULLPARTY_API_KEY}` from the process environment only; `.env` files are *not* auto-loaded:
