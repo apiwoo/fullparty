@@ -16,7 +16,7 @@ You're making a game alone. **Fullparty gives you the party**: AI party members 
 - **Launch** — Launch party member. Release builds, store listing, age rating, submission checklists, rejection response, launch-day rollout/rollback plan.
 - **Legal** — Legal party member. Privacy policy, terms, gacha-odds disclosures, licenses/credits — drafted from your game's reality, for your review.
 - **LiveOps** — LiveOps party member. Monitoring, log triage, incident/hotfix runbooks, maintenance flow, CS-signal triage — live pushes always wait for your go.
-- **Harness** — Delegation party member. Puts cheap worker agents (Codex, cheaper model tiers, subagents) to work under the main model's direction: airtight spec handoffs, sandbox-trap runbook, degenerate-run detection, and a hard fallback rule — so the expensive model spends its tokens on design and review, not boilerplate.
+- **Harness** — Delegation party member. Puts cheap worker agents (Codex, cheaper model tiers, subagents) to work under the main model's direction: airtight spec handoffs, sandbox-trap runbook, degenerate-run detection, and a hard fallback rule — so the expensive model spends its tokens on design and review, not boilerplate. You pick the model pairing once from recommended presets (e.g. Claude main + Codex worker, or all-Claude / all-Codex); the contract is the same either way.
 
 Your game's identity stays yours: player-visible choices (art style, proportions, UI frame, fonts, audio tone) are locked per game with you in each project's charter — the party ships methods, never a house style.
 

@@ -15,6 +15,17 @@ The main model (you) carries the judgment that can't be delegated: design, decom
 **Never delegate**: taste/identity work (charter surface), cross-cutting design decisions, deterministic kernels (below), the *first* item of a new kind (doctrine: one through the pipeline before many), anything whose verification needs tools only you hold (engine runtime, screenshots, deploys).
 **No worker available?** The same contract runs on your own subagents with a cheaper model — the harness is the structure, not a specific binary.
 
+## Pairing presets (owner picks once, at harness setup — Tier 2)
+
+The pipeline is main↔worker; the owner chooses which models fill the two seats. Present these presets **in this recommended order**, propose #1 as the default, and fall back down the list based on what's actually installed/available on the machine. Record the chosen pairing in `harness/RULES.md` (header line) and `.fullparty/progress.md`.
+
+1. **Claude Fable (main) ↔ Codex 5.6 sol (worker)** — recommended default. Strongest design/review seat + a cross-vendor worker: different vendor = different blind spots, which makes the two-stage bug pipeline's independent investigation genuinely independent. Runs over the CLI invocation runbook below.
+2. **Claude Fable (main) ↔ Claude Opus (worker)** — same-vendor pairing when Codex isn't installed (or its quota is exhausted). The worker runs as an in-harness subagent with a model override — no CLI wiring, no sandbox/ACL traps, shared tooling. The spec contract still applies verbatim (specs + SELF_CHECK, not chat): the discipline is what makes delegation reviewable, regardless of transport.
+3. **Claude Opus (main) ↔ Claude Opus (worker)** — when the top tier isn't available or the budget calls for it. All-Claude, subagent transport, same contract.
+4. **Codex 5.6 sol (main) ↔ Codex 5.6 sol (worker)** — for all-OpenAI setups (the user's main agent *is* Codex). The same contract documents drive it; the invocation runbook applies to the worker side.
+
+Availability check before proposing: is the Codex CLI installed and current? which model tiers does the user's agent host expose? If the picked preset's worker turns out unavailable mid-campaign, offer the next preset down rather than silently degrading. Model names shift with generations — keep the *structure* (strongest-reasoning tier in the main seat, cheap/fast tier in the worker seat) and map current equivalents into these four shapes.
+
 ## Contract layout (per project)
 
 ```
