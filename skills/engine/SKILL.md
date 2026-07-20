@@ -10,8 +10,20 @@ description: Engine party member — drive Unity (and Godot) directly so the use
 ## Ground rules
 
 - **Pin the editor version.** Multiple versions coexist in Unity Hub — read `ProjectSettings/ProjectVersion.txt` and invoke that exact editor. Never launch unversioned.
-- **Close the interactive editor before batch runs** (Library lock). If an open editor seems to swallow compile requests (compile timestamp never moves), restart it — that's the known cure.
+- **Close the interactive editor before batch runs** (Library lock). If an open editor seems to swallow compile requests (compile timestamp never moves), restart it — that's the known cure. **Exception: never kill an editor the owner opened.** An open editor makes batchmode fail *silently* (log ends right after "Successfully changed project path", exit 1) — when that signature appears, switch modes instead: ship every batch entry point as a `[MenuItem]` twin, and during owner editor time work by script-edit → recompile → ask the owner to run the menu item or Play.
 - Deciding batch vs MCP: **"do I need to see the screen?"** No → batch (deterministic, unattended). Yes (UI look, screenshots, Play-mode state) → MCP with the editor open. Compile gates work in both.
+
+## Project scaffold runbook (Unity 0→1 — traps measured in a real greenfield sprint)
+
+Every one of these cost real trial-and-error in a live scaffold; walk the list instead of rediscovering it:
+
+1. **`-createProject` fails under a repo root containing dot-folders** (`.git`, `.fullparty`) — the failure is unexplained, and `-logFile` separately rejects any path inside a dot-folder (".fullparty is not a valid directory name"). Create the project in a clean path *outside* the repo (e.g. `~/proj_client_tmp`), verify `ProjectSettings/ProjectVersion.txt` exists, then move it into place (`client/`).
+2. **After moving the project into the repo (Windows), reset ACL inheritance**: a same-volume `Move-Item` carries the source ACL with inheritance broken, and every downstream sandboxed tool (delegated coding agents, restricted shells) gets mysterious write-denials. `icacls <dir> /reset /t /q` immediately after the move — make it part of the move, not a later fix.
+3. **`Unity.exe` is a GUI-subsystem app**: `& unity.exe ...` returns instantly with an empty exit code. Launch with `Start-Process -Wait -PassThru`, and judge success by a marker your editor script prints to the log (`PROJ_SETUP_OK`) — never by `$LASTEXITCODE` alone.
+4. **Install packages in two batch passes**: pass 1 = a package-adding editor script with **zero references to the package** (`UnityEditor.PackageManager.Client.Add("com.unity.render-pipelines.universal")` + completion polling — let Unity resolve the version matching the editor; don't hand-edit `manifest.json` versions); pass 2 = the configuration script that *uses* the package's types. One combined script can't compile before the package exists — the batch deadlocks on its own compile error.
+5. **First-import self-healing errors**: transient PackageCache shadergraph GUID `CS0246` errors on the very first import recover on recompile. If the log has no "Scripts have compiler errors" and your `executeMethod` actually ran, proceed; don't chase them.
+6. **Tell the owner the Hub path proactively**: when they first open the project, the folder to add in Unity Hub is the one containing `Assets/` + `ProjectSettings/` (e.g. `client/`), not the repo root. Say it before they ask.
+7. **First-boot budget**: the first editor boot imports for minutes — run it in the background with a completion marker and do other scaffold work meanwhile; don't diagnose a "hang" before the first import has finished.
 
 ## Headless repertoire (Unity)
 

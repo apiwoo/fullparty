@@ -47,6 +47,7 @@ The standing question before any protocol or data change (owner's own gate): **"
 - **Test isolation**: cheat/wipe APIs exist only on test instances (IP-allowlisted); **live push always waits for an explicit owner go** (inherited hard rule). Wipe/ops scripts run in the venv — the system interpreter missing a driver "succeeds" with 0 rows.
 - Graceful shutdown flushes all in-memory pending state (currency, progress, items) to DB. Back up whatever a deploy replaces — move, don't delete.
 - **Load test before launch** (the launch member walks this gate): ramp concurrent sessions plus a day-one login storm against the test instance, race the heaviest endpoints, and record the capacity number and what breaks first.
+- **External compute engines warm up once per machine** (game-AI engines like KataGo/Stockfish, local ML models): the first query may auto-tune/JIT for minutes on a new machine or GPU, then cache. Absorb it with a startup warmup query (server lifespan hook), give first-run integration tests generous timeouts (120s+), and put the warmup wait in the deploy runbook — otherwise the first real user eats it, and CI reads the tuning stall as a hang.
 
 ## Schedulers, time, sessions
 
