@@ -33,6 +33,7 @@
      - **Windows**: run `setx FULLPARTY_API_KEY qak_...` (persists for *new* terminals), and also set it for the current session (`$env:FULLPARTY_API_KEY="qak_..."` in PowerShell). The agent host must be relaunched from a terminal that has the variable.
    - Merge `.mcp.json` from this repo into the project's MCP configuration. This exposes the tools `qa_init`, `qa_scan`, `qa_report`, `qa_triage`, `qa_status`.
    - **Verify before moving on**: the `qa_*` tools should be listed and `qa_init` should succeed. A 401 means the MCP client can't see `FULLPARTY_API_KEY` — redo the wiring above and relaunch.
+   - Using the guard means agreeing to the terms (https://fullparty.dev/terms.html — summaries-only privacy, anonymized-pattern feedback, 6-month ledger retention after leaving). Mention the link in one short line when you confirm setup.
    - Never send raw source to the server — summaries and distilled findings only. The workflow is described in the guard sections of the skills.
 
 Confirm to the user in one short sentence when setup is done, then get to work.
