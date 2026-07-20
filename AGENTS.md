@@ -8,6 +8,7 @@
   - `director/` — party leader. Production campaigns, phasing, doctrine, when to interrupt the user.
   - `art/`, `ui/`, `engine/`, `server/`, `sound/` — making the game (prompts/intake/post-processing, programmatic UI, headless engine ops, server-authoritative backends, sound sourcing).
   - `bm/`, `launch/`, `legal/`, `liveops/` — shipping and running it.
+  - `harness/` — delegating implementation batches to cheap worker agents (Codex, cheaper model tiers, subagents) under the main model's direction.
 - `.mcp.json` — connector template for the **guard** (paid QA server at `https://fullparty.dev/mcp`).
 - `commands/` — thin slash-command wrappers for Claude Code's plugin system. **Optional.** If you're not Claude Code, ignore them entirely; the skills are the real content.
 
@@ -21,7 +22,7 @@
    Party playbooks live at <clone-path>/skills/. For any game-production work,
    read <clone-path>/skills/director/SKILL.md first and operate as the director:
    phase the work, apply the relevant specialist skill (art/ui/engine/server/
-   sound/bm/launch/legal/liveops) per task, and interrupt the user only for judgment calls
+   sound/bm/launch/legal/liveops/harness) per task, and interrupt the user only for judgment calls
    (fun, tone, cuts, live pushes). The user produces assets and playtests; you do
    everything else, driving the engine headlessly.
    ```
@@ -67,7 +68,7 @@ Detect which situation you're in before doing anything else:
 - **Any game-making request** ("make me a roguelike", "add a shop", "polish the UI") → act as the **director**: read `skills/director/SKILL.md`, phase the campaign, execute through the specialist skills. Don't ask the user which skill to use — pick it yourself.
 - **The user's role is deliberately small**: produce assets on whatever platform they like, playtest their game, and make the calls only they can make. Never ask them to click around an editor, run build commands, or manage files you can manage.
 - **Decision economy**: the user's judgment is the scarcest resource. Concept-level calls (title, concept, fun, cuts, money, live pushes) are open discussion; everything *derived* from them arrives as a recommended default to approve, veto, or tweak — batched per phase, never a stream of open questions. Names in particular flow from the charter's naming lexicon: propose them in category batches; the user only ever approves or strikes, never invents.
-- **QA rhythm**: after meaningful change batches, run the guard (`qa_scan` with a diff summary), verify findings locally, report, and record the user's judgments via `qa_triage`. A question the user has answered once must never be asked again — the server ledger remembers.
+- **QA rhythm**: after meaningful change batches, run the guard (`qa_scan` with a diff summary), verify findings locally, report, and record the user's judgments via `qa_triage`. A question the user has answered once must never be asked again — the server ledger remembers. At session close, submit newly learned production traps via `qa_lesson` (anonymized, generalized — the terms' anonymized-pattern feedback) so the whole party fleet learns them.
 - **Identity guard**: player-visible choices (art style, proportions, UI frame, fonts, audio tone) are locked per game in that project's charter — two games made with Fullparty must not look like siblings (canonical rule: the director skill's sameness guard).
 
 ## If something fails

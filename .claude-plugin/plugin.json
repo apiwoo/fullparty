@@ -1,7 +1,7 @@
 {
   "name": "fullparty",
   "description": "Your full party for solo game development. AI party members that make the game with you — art prompts & post-processing, programmatic UI, headless engine driving, server-authoritative backends — plus a paid QA guard that learns your game (server-side memory over MCP). You produce assets and playtest; the party does the rest.",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "keywords": ["game-development", "solo-dev", "art-pipeline", "unity", "qa", "mcp"],
   "license": "MIT"
 }
