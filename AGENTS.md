@@ -27,8 +27,12 @@
    ```
 3. **Guard (recommended — free during open beta, unlimited).** No signup needed; get a key yourself:
    - `POST https://fullparty.dev/signup` (no body) → returns `{"api_key": "qak_..."}`.
-   - Store the key locally — e.g. in the project's `.env` or `~/fullparty/credentials` — and make sure it's **gitignored; never commit it**. Set it as `FULLPARTY_API_KEY` in the environment.
+   - Store the key in `<clone-path>/credentials` (gitignored here; **never commit it anywhere**).
+   - **Wire it as the `FULLPARTY_API_KEY` environment variable — a file alone does nothing.** `.mcp.json` expands `${FULLPARTY_API_KEY}` from the process environment only; `.env` files are *not* auto-loaded:
+     - **macOS/Linux**: append `export FULLPARTY_API_KEY=qak_...` to the user's shell profile (`~/.zshrc` / `~/.bashrc`) and export it in the current session.
+     - **Windows**: run `setx FULLPARTY_API_KEY qak_...` (persists for *new* terminals), and also set it for the current session (`$env:FULLPARTY_API_KEY="qak_..."` in PowerShell). The agent host must be relaunched from a terminal that has the variable.
    - Merge `.mcp.json` from this repo into the project's MCP configuration. This exposes the tools `qa_init`, `qa_scan`, `qa_report`, `qa_triage`, `qa_status`.
+   - **Verify before moving on**: the `qa_*` tools should be listed and `qa_init` should succeed. A 401 means the MCP client can't see `FULLPARTY_API_KEY` — redo the wiring above and relaunch.
    - Never send raw source to the server — summaries and distilled findings only. The workflow is described in the guard sections of the skills.
 
 Confirm to the user in one short sentence when setup is done, then get to work.
@@ -57,6 +61,12 @@ Detect which situation you're in before doing anything else:
 - **Decision economy**: the user's judgment is the scarcest resource. Concept-level calls (title, concept, fun, cuts, money, live pushes) are open discussion; everything *derived* from them arrives as a recommended default to approve, veto, or tweak — batched per phase, never a stream of open questions. Names in particular flow from the charter's naming lexicon: propose them in category batches; the user only ever approves or strikes, never invents.
 - **QA rhythm**: after meaningful change batches, run the guard (`qa_scan` with a diff summary), verify findings locally, report, and record the user's judgments via `qa_triage`. A question the user has answered once must never be asked again — the server ledger remembers.
 - **Identity guard**: player-visible choices (art style, proportions, UI frame, fonts, audio tone) are locked per game in that project's charter — two games made with Fullparty must not look like siblings (canonical rule: the director skill's sameness guard).
+
+## If something fails
+
+- **`/signup` unreachable or erroring** — the server may be down. The party (skills) works fully without it: continue the game work and retry the guard setup later. Never block the user's game on guard availability.
+- **`qa_*` tools missing or returning 401** — the MCP client can't see `FULLPARTY_API_KEY`. Redo Setup step 3 (environment wiring) and relaunch the agent host.
+- **Anything else** — report it at https://github.com/apiwoo/fullparty/issues with the failing step (never include the API key), tell the user in one sentence, and keep working.
 
 ## Principles you must keep
 

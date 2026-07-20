@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-"""
-거리기반 배경 키어 — 코너에서 배경색을 자동 샘플링해 그 색에 가까운 픽셀을 투명화.
-순수 마젠타가 아닌 핫핑크(예: 247,3,160) 등 GPT가 자주 내는 비순수 배경을 잡는다.
-(key_and_trim.py = 순수 #FF00FF 전용. 비순수 배경은 이걸 쓴다.)
+"""Distance-based background keyer — samples the background color from the four
+corners and makes pixels near that color transparent. Handles impure chroma
+backgrounds (e.g. hot pink 247,3,160) that image platforms often produce
+instead of pure #FF00FF.
 
-사용법:
-    python tools/key_distance.py <src.png> <dst.png> [hard=90] [soft=160] [padding=8]
-    - hard: 배경색과의 거리 <= hard → 완전 투명
-    - soft: hard~soft 사이 → 부분 투명(안티앨리어싱 가장자리)
+Usage:
+    python key_distance.py <src.png> <dst.png> [hard=90] [soft=160] [padding=8]
+    - hard: color distance <= hard -> fully transparent
+    - soft: between hard and soft -> partial alpha (anti-aliased edges)
 """
 import sys
 from pathlib import Path

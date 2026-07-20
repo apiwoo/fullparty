@@ -8,10 +8,10 @@ allowed-tools: Read, Grep, Glob, Bash, Write, Task
 
 Run a catalog-based QA scan via the Fullparty server. Read-only on the target. Respond to the user in their own language.
 
-1. Gather a **summary** of what to scan — never raw source, only a summary (§ privacy):
+1. Gather a **summary** of what to scan — never raw source, only a summary (privacy rule):
    - Full scan: a lightweight manifest (file tree + key structural facts from the profile).
    - Diff scan (arg `diff`, or "recent changes"): `git diff --name-only {range}` + the nature of the changes.
-   - Load `${CLAUDE_PROJECT_DIR}/.fullparty/qa/project.json` for `project_id`.
+   - Load `${CLAUDE_PROJECT_DIR}/.fullparty/qa/project.json` for `project_id`. If it doesn't exist, the project isn't registered — run `/fullparty:init` first, then continue.
 2. Call the server MCP tool **`qa_scan`** with `project_id` + the summary. The server matches against its catalog, applies this project's ledger (suppression / known / regression), and returns **only the verification-instruction slice relevant to this diff/project**, plus how to run it (finder/verifier orchestration).
 3. Execute the returned instructions **locally** against the project's code (read files locally, spawn finder/verifier subagents as the server specifies). Raw code stays on the machine.
 4. Call **`qa_report`** with the **distilled** findings (pattern id, file:line, brief — not raw code). The server stores them in project memory and returns the report + loop metrics.

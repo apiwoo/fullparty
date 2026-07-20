@@ -37,7 +37,7 @@ manifest.json        # asset_id → {kind, grid, key_color|auto, motions[], out_
 Sheets: `{name}_{motion}.png`, grid NxN (characters 7×7, effects 4×4 typical). `flip: true` for left-facing sprite bases (engine mirrors to right).
 
 ### 5. Post-process (local, bundled scripts in `scripts/`)
-- **`key_distance.py`** — distance-based keyer for near-pure chroma backgrounds (+alpha trim). `python key_distance.py src.png dst.png [--hard/--soft/--pad]`.
+- **`key_distance.py`** — distance-based keyer for near-pure chroma backgrounds (+alpha trim). `python key_distance.py src.png dst.png [hard] [soft] [padding]` (positional, defaults 90/160/8).
 - **`cutout_rembg.py`** — semantic cutout (rembg isnet-anime, GPU first) for white/complex backgrounds. Keeps whites inside the subject.
 - **Sheet slicing**: detect key color from a 40×40 corner sample (green/magenta), key per-sheet with auto threshold, despill, clear 1px cell borders, union Y-trim across all cells of a motion (so frames share a baseline), output `cell_NNN.png` / `frame_NN.png`. Implement per-project with the two scripts as primitives; keep backups of originals.
 - **Strict white kill invariant** (character cleanup): after semantic cutout, `RGB==(255,255,255) AND alpha>0 → alpha=0`; never enable alpha-matting (it shifts whites to 254/253 and defeats the check). Original RGB stays lossless; only alpha comes from the model.
