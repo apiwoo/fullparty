@@ -45,6 +45,15 @@ bash `grep -c "error CS" unity_build.log` · PowerShell `(Select-String -Path un
 
 Multi-platform switching cost: keep `Library` as an NTFS junction and swap platform-specific backups by rename, tracked with a `.platform_marker` file — avoids the reimport storm on Win↔Android flips.
 
+## Asset delivery & build size (decide day one, gate every build)
+
+Any live-service or size-constrained game splits its content delivery (Unity: Addressables) — retrofitting it later is a whole-project reorganization that breeds dangling addresses, double-playback paths, and stale groups. The charter's asset-delivery decision (store size caps, local/remote split) precedes the first imported asset; you own the mechanics:
+
+- **Group granularity is a boot-time decision, not just a size one**: per-asset granularity explodes catalog locations into the tens of thousands, and a single bulk download call then spends tens of seconds on dependency analysis before the first byte — misread as a network stall, triggering false retries. Group by content unit (chapter / region / character set); keep catalog locations in the thousands.
+- **Local/remote boundary**: boot-critical assets stay local (first scene comes up without a network); content waves go remote. Verify every remote group's BuildPath/LoadPath against the actual serving path — a group left on a local path builds "successfully" and simply never ships (silent missing content).
+- **Size gate in every build**: the build script reports total size + per-group deltas; a group jumping ×2+ without an intentional content add fails the gate. First suspect: block-compression fallback — a texture dimension that isn't a multiple of 4 silently falls back to uncompressed RGBA32 (4× size, VRAM spike). Importers enforce %4 dimensions; the gate inspects built bundles for RGBA32/ARGB32 count = 0.
+- **You enforce the budget; launch enforces the cap**: read the target store's hard cap and cellular threshold from the charter and print headroom in every size report, so launch never discovers an overage at submission.
+
 ## Editor scripts — do it in code, deterministically
 
 Anything a human would click, write as an `Assets/Editor/` script with a `[MenuItem]` **and** a static batch entry point:

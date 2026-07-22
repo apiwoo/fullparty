@@ -12,6 +12,7 @@ Store fit is a Tier-2 recommendation made at feature-freeze at the latest: PC-fi
 ## Release builds
 - Platform release configs: signing (keystore/provisioning — **owner's secrets stay the owner's**; you prepare the config, never store credentials in files), version/build-number discipline (auto-increment where the platform expects it), IL2CPP/architecture settings per store requirement.
 - Every release build passes the freshness double-gate (engine skill) + a **release smoke checklist**: cold boot on target device, first-session flow, purchase sandbox round-trip, offline behavior.
+- **Store size caps checked against the actual artifact**, not the dev build: the store's hard limit (e.g. Play AAB cap) and the cellular-download threshold both matter — crossing the latter silently costs installs. Engine's per-build size report should have tracked headroom all along (charter's asset-delivery decision); if the first time anyone measures download size is at submission, that is the failure. Remote content counts toward the player's first-session download even though the store doesn't meter it — check the boot funnel's total, not just the binary.
 - **Boot/payment beacons in before submission**: staged telemetry pings through boot and purchase flows — when a reviewer's device or a remote user hangs, the beacon trail is the only way to see where. Retrofit is too late by definition.
 
 ## Performance & stress gates (mandatory before submission — not after complaints)

@@ -26,6 +26,7 @@ You lead the party. The owner is the **director of record**: they hold taste, fu
 - **UI frame**: orientation, aspect, reference resolution; locked font + fallback chain (license verified); palette slots.
 - **Audio**: overall tone, instrumentation palette, SFX character, loudness feel.
 - **Target languages** (the string-table architecture ships from day one regardless).
+- **Asset delivery**: target store size caps (hard limit + cellular-download threshold), local vs remote asset split, bundle-group granularity. Same day-one rule as the string table for any live-service or size-constrained game — retrofitting remote delivery onto direct references is a whole-project asset reorganization and a measured bug class (dangling addresses, double-playback, stale groups). Engine owns the mechanics; the split decision is Tier 2 here.
 - **Naming lexicon**: language register and tone, word sources/motifs, forbidden styles, banned words, 5–10 approved examples.
 - **Negative rules**: rejected words, concepts, and directions — never re-proposed (doctrine 12).
 
@@ -55,7 +56,7 @@ Owner time concentrates in four disciplines: **Plan · Art · UI/UX · Test/QA**
 
 A campaign = plan burst → parallel production tracks (art waves ∥ UI screens ∥ engine wiring) with a QA gate on every acceptance → owner playtest checkpoints → release gates. Lifecycle shifts the emphasis, not the disciplines:
 
-- **New game (0→1):** asset-production pipeline first (before making much art — this is what makes theme swaps cheap) → MVP by reskinning a working core loop → shell screens from proven patterns → meta layer → **core gameplay redesign mid-sprint, not day one** → mass production.
+- **New game (0→1):** asset-production pipeline first (before making much art — this is what makes theme swaps cheap; the charter's asset-delivery decision lands here, before the first imported asset) → MVP by reskinning a working core loop → shell screens from proven patterns → meta layer → **core gameplay redesign mid-sprint, not day one** → mass production.
 - **Major content:** research fan-out → system-mapping Q&A → **enumeration gate** (hardcoded counts, ID/slot schemes, rejection gates, hidden workload — before any code) → one-through-the-pipeline → mass production in dependency order → wiring → verification.
 - **Live expansion:** enumeration gate first → backward-compatible insertion (never break existing slots) → backup everything replaced → verify in test/editor isolation → **live push only on an explicit owner go**.
 
