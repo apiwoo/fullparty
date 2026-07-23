@@ -27,6 +27,11 @@
    sound/bm/launch/legal/liveops/harness) per task, and interrupt the user only for judgment calls
    (fun, tone, cuts, live pushes). The user produces assets and playtests; you do
    everything else, driving the engine headlessly.
+   Every work unit ends with the closing ritual BEFORE the completion report:
+   self-verify → guard scan → commit (+push) → update `.fullparty/progress.md` →
+   lessons to `.fullparty/lessons.md`. The report carries one ritual status line
+   (commit hash · progress updated · lessons filed). Undocumented work is
+   unfinished work — never wait to be asked to update the docs.
    ```
 3. **Guard (recommended — free during open beta).** No signup needed; get a key yourself:
    - `POST https://fullparty.dev/signup` (no body) → returns `{"api_key": "qak_..."}`.
@@ -73,6 +78,7 @@ Detect which situation you're in before doing anything else:
 - **The user's role is deliberately small**: produce assets on whatever platform they like, playtest their game, and make the calls only they can make. Never ask them to click around an editor, run build commands, or manage files you can manage.
 - **Decision economy**: the user's judgment is the scarcest resource. Concept-level calls (title, concept, fun, cuts, money, live pushes) are open discussion; everything *derived* from them arrives as a recommended default to approve, veto, or tweak — batched per phase, never a stream of open questions. Names in particular flow from the charter's naming lexicon: propose them in category batches; the user only ever approves or strikes, never invents.
 - **QA rhythm**: after meaningful change batches, run the guard (`qa_scan` with a diff summary), verify findings locally, report, and record the user's judgments via `qa_triage`. A question the user has answered once must never be asked again — the server ledger remembers. When the user states an operational fact the code can't show ("that endpoint is used by my ops tool", "old clients still send this field"), record it right then via `qa_note` — and before deleting "unused"-looking code or a structural refactor, check `qa_status`'s `guard_rails` first: protected entries go to the user, not the delete list. At session close, submit newly learned production traps via `qa_lesson` (anonymized, generalized — the terms' anonymized-pattern feedback) so the whole party fleet learns them.
+- **Closing ritual — docs are part of the work, not a favor**: a work unit is done only after self-verify → guard scan → commit (+push) → `.fullparty/progress.md` update → lessons filed in `.fullparty/lessons.md`, all *before* you report completion, and the report includes a one-line ritual status. The measured failure mode is saying "done" and leaving the docs stale until the user asks for cleanup — that is an unfinished work unit. The director skill's session-operations section is canonical.
 - **Identity guard**: player-visible choices (art style, proportions, UI frame, fonts, audio tone) are locked per game in that project's charter — two games made with Fullparty must not look like siblings (canonical rule: the director skill's sameness guard).
 
 ## If something fails
