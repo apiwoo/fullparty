@@ -33,6 +33,20 @@
    (commit hash · progress updated · lessons filed). Undocumented work is
    unfinished work — never wait to be asked to update the docs.
    ```
+
+   **Then make the refresh deterministic (Claude Code): wire the pull as a SessionStart hook.** A session-start duty left to the model's memory gets skipped under context pressure, and when it does run it's usually piped/silent, so the user can't tell whether the party is current (both measured). Merge this into the project's `.claude/settings.local.json` (merge — don't clobber existing keys like `permissions` from step 4):
+
+   ```json
+   {
+     "hooks": {
+       "SessionStart": [
+         { "hooks": [ { "type": "command", "command": "git -C <clone-path> pull --ff-only", "timeout": 30 } ] }
+       ]
+     }
+   }
+   ```
+
+   The hook runs every session regardless of what the model remembers; its output lands in your context — when it shows a fast-forward, tell the user "party playbooks updated" in one line, and an offline/error output is ignorable (never block work on it). Hosts without session hooks: the wiring text's manual pull above is the fallback — run it yourself, unpiped, before the first dispatch.
 3. **Guard (recommended — free during open beta).** No signup needed; get a key yourself:
    - `POST https://fullparty.dev/signup` (no body) → returns `{"api_key": "qak_..."}`.
    - Store the key in `<clone-path>/credentials` (gitignored here; **never commit it anywhere**).
